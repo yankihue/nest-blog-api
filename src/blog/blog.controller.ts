@@ -34,7 +34,6 @@ export class BlogController {
   }
 
   @Post()
-  @UseGuards(AuthGuard())
   async createBlog(
     @Body()
     blog: CreateBlogDto,
@@ -80,6 +79,7 @@ export class BlogController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
   async deleteBlog(
     @Param('id')
     id: string,

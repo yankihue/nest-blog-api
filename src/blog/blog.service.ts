@@ -79,6 +79,13 @@ export class BlogService {
   }
 
   async deleteById(id: string): Promise<{ deleted: boolean }> {
+    const blogPost = await this.findById(id);
+    const isPostOwner = await this.authService.isPostOwner(id, blogPost);
+    if (!isPostOwner) {
+      throw new UnauthorizedException(
+        'This post does not belong to you. You cannot modify it.',
+      );
+    }
     await this.blogModel.findByIdAndDelete(id);
     return { deleted: true };
   }

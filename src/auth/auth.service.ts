@@ -63,7 +63,6 @@ export class AuthService {
     return { token };
   }
   async isPostOwner(id: string, blog: Blog): Promise<boolean> {
-    console.log(blog);
     if (blog.author._id != id) {
       return false;
     }
