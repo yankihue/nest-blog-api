@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
@@ -9,12 +10,14 @@ import { Blog } from './schemas/blog.schema';
 
 import { Query } from 'express-serve-static-core';
 import { User } from '../auth/schemas/user.schema';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class BlogService {
   constructor(
     @InjectModel(Blog.name)
     private blogModel: mongoose.Model<Blog>,
+    private authService: AuthService,
   ) {}
 
   async findAll(query: Query): Promise<Blog[]> {
@@ -62,6 +65,13 @@ export class BlogService {
   }
 
   async updateById(id: string, blog: Blog): Promise<Blog> {
+    const blogPost = await this.findById(id);
+    const isPostOwner = await this.authService.isPostOwner(id, blogPost);
+    if (!isPostOwner) {
+      throw new UnauthorizedException(
+        'This post does not belong to you. You cannot modify it.',
+      );
+    }
     return await this.blogModel.findByIdAndUpdate(id, blog, {
       new: true,
       runValidators: true,

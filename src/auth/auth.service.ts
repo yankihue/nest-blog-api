@@ -11,6 +11,7 @@ import * as bcrypt from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { Blog } from 'src/blog/schemas/blog.schema';
 
 @Injectable()
 export class AuthService {
@@ -60,5 +61,12 @@ export class AuthService {
     const token = this.jwtService.sign({ id: user._id });
 
     return { token };
+  }
+  async isPostOwner(id: string, blog: Blog): Promise<boolean> {
+    console.log(blog);
+    if (blog.author._id != id) {
+      return false;
+    }
+    return true;
   }
 }
