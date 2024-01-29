@@ -4,13 +4,18 @@ import { AuthModule } from '../auth/auth.module';
 import { BlogController } from './blog.controller';
 import { BlogService } from './blog.service';
 import { BlogSchema } from './schemas/blog.schema';
+import { CommentService } from './comment.service';
+import { CommentSchema } from './schemas/comment.schema';
 
 @Module({
   imports: [
     AuthModule,
-    MongooseModule.forFeature([{ name: 'Blog', schema: BlogSchema }]),
+    MongooseModule.forFeature([
+      { name: 'Blog', schema: BlogSchema },
+      { name: 'Comment', schema: CommentSchema },
+    ]),
   ],
   controllers: [BlogController],
-  providers: [BlogService],
+  providers: [BlogService, CommentService],
 })
 export class BlogModule {}

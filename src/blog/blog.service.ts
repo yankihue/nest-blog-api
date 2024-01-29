@@ -18,7 +18,7 @@ export class BlogService {
   ) {}
 
   async findAll(query: Query): Promise<Blog[]> {
-    const resPerPage = 2;
+    const resPerPage = 2; // low # of results per page for demonstration purposes
     const currentPage = Number(query.page) || 1;
     const skip = resPerPage * (currentPage - 1);
 
@@ -39,7 +39,7 @@ export class BlogService {
   }
 
   async create(blog: Blog, user: User): Promise<Blog> {
-    const data = Object.assign(blog, { user: user._id });
+    const data = Object.assign(blog, { author: user._id });
 
     const res = await this.blogModel.create(data);
     return res;

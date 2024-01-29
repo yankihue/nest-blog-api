@@ -17,10 +17,16 @@ import { Blog } from './schemas/blog.schema';
 
 import { Query as ExpressQuery } from 'express-serve-static-core';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateCommentDTO } from './dto/create-comment.dto';
+import { CommentService } from './comment.service';
+import { Comment } from './schemas/comment.schema';
 
 @Controller('blogs')
 export class BlogController {
-  constructor(private blogService: BlogService) {}
+  constructor(
+    private blogService: BlogService,
+    private commentService: CommentService,
+  ) {}
 
   @Get()
   async getAllBlogs(@Query() query: ExpressQuery): Promise<Blog[]> {
@@ -35,6 +41,16 @@ export class BlogController {
     @Req() req,
   ): Promise<Blog> {
     return this.blogService.create(blog, req.user);
+  }
+  @Post(':id/comments')
+  async addComment(
+    @Body()
+    comment: CreateCommentDTO,
+    @Param('id')
+    id: string,
+    @Req() req,
+  ): Promise<Comment> {
+    return this.commentService.create(comment, id, req.user);
   }
 
   @Get(':id')
