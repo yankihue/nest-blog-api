@@ -43,6 +43,7 @@ export class BlogController {
     return this.blogService.create(blog, req.user);
   }
   @Post(':id/comments')
+  @UseGuards(AuthGuard())
   async addComment(
     @Body()
     comment: CreateCommentDTO,
@@ -51,6 +52,13 @@ export class BlogController {
     @Req() req,
   ): Promise<Comment> {
     return this.commentService.create(comment, id, req.user);
+  }
+  @Get(':id/comments')
+  async getBlogComments(
+    @Param('id')
+    id: string,
+  ): Promise<Comment[]> {
+    return this.commentService.findByBlogPost(id);
   }
 
   @Get(':id')
