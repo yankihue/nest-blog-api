@@ -50,6 +50,7 @@ export class CommentService {
       comment,
       { parent: blogId },
       { author: user._id },
+      { authorName: user.name },
     );
 
     const res = await this.commentModel.create(data);

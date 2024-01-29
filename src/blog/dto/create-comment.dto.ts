@@ -8,6 +8,8 @@ export class CreateCommentDTO {
   readonly content: string;
   @IsEmpty({ message: 'You cannot pass user manually.' })
   readonly author: User;
+  @IsEmpty({ message: 'You cannot pass user name.' })
+  readonly authorName: string;
   @IsEmpty({ message: 'You cannot pass parent post manually.' })
   readonly parent: Blog;
 }

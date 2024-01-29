@@ -12,6 +12,8 @@ export class Comment {
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   author: User;
+  @Prop()
+  authorName: string;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Blog' })
   parent: Blog;
 }
