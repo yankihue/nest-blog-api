@@ -64,16 +64,27 @@ export class CommentService {
       throw new BadRequestException('Given ID is not valid.');
     }
 
-    const post = await this.commentModel.findById(id);
+    const comment = await this.commentModel.findById(id);
 
-    if (!post) {
-      throw new NotFoundException('Blog post not found.');
+    if (!comment) {
+      throw new NotFoundException('Comment not found.');
     }
 
-    return post;
+    return comment;
   }
 
   async deleteById(id: string): Promise<{ deleted: boolean }> {
+    const isValidId = mongoose.isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Given ID is not valid.');
+    }
+
+    const post = await this.commentModel.findById(id);
+
+    if (!post) {
+      throw new NotFoundException('Comment not found.');
+    }
     await this.commentModel.findByIdAndDelete(id);
     return { deleted: true };
   }

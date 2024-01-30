@@ -79,11 +79,21 @@ export class BlogService {
   }
 
   async deleteById(id: string): Promise<{ deleted: boolean }> {
+    const isValidId = mongoose.isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Given ID is not valid.');
+    }
+
     const blogPost = await this.findById(id);
+
+    if (!blogPost) {
+      throw new NotFoundException('Blog post not found.');
+    }
     const isPostOwner = await this.authService.isPostOwner(id, blogPost);
     if (!isPostOwner) {
       throw new UnauthorizedException(
-        'This post does not belong to you. You cannot modify it.',
+        'This post does not belong to you. You cannot delete it.',
       );
     }
     await this.blogModel.findByIdAndDelete(id);
