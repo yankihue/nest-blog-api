@@ -2,7 +2,7 @@
 ## Running the app
 Make sure you have the Docker daemon running. You can use 
 ```
-docker compose up
+docker-compose up
 ```
 to start the API and MongoDB containers at the same time. Then, use Postman or your preferred API platform to start testing the project. You can follow these instructions to set up a basic secnario, or go to `http://localhost:3000/api/` for Swagger docs.
 
