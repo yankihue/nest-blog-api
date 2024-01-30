@@ -1,5 +1,5 @@
 # Nest Blog API with JWT Auth
-# Running the app
+## Running the app
 Make sure you have the Docker daemon running. You can use 
 ```
 docker compose up
