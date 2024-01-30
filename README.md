@@ -42,9 +42,16 @@ You can create blog posts with `POST localhost:3000/blogs`
 If you are logged in, you will be the author of the post. If not, there will be no author. 
 
 You can test the pagination and custom page size queries with the example
+ ```
+GET localhost:3000/blogs?size=1&page=2 
+```
 
-`GET localhost:3000/blogs?size=1&page=2`
 
+ You can also search the titles with the query parameter `keyword`:
+
+ ```
+GET localhost:3000/blogs?keyword=TitleTest
+ ```
 After creating a few posts, explore the endpoints. Verify that
 - Only blog owner can edit and delete blogs
 - Only logged in users can comment under blog posts
